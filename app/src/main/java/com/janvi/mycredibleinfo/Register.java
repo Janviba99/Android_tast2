@@ -1,27 +1,12 @@
 package com.janvi.mycredibleinfo;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Register extends AppCompatActivity {
 
@@ -35,7 +20,7 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         Name=(EditText)findViewById(R.id.name);
         Email=(EditText)findViewById(R.id.email);
-        Username=(EditText)findViewById(R.id.username);
+        Username=(EditText)findViewById(R.id.textview);
         Password=(EditText)findViewById(R.id.pass);
         Conpassword=(EditText)findViewById(R.id.conpass);
         builder=new AlertDialog.Builder(Register.this);
@@ -63,7 +48,24 @@ public class Register extends AppCompatActivity {
             }
             else
             {
-                StringRequest stringRequest=new StringRequest(Request.Method.POST,reg_url,
+                if(name.equals("janvi")) {
+                    String code = "req_failed";
+                    String message="User already exist...";
+                    builder.setTitle("Server Response...");
+                    builder.setMessage(message);
+                    diaplayAlert(code);
+
+                }
+                else if(name.equals("Janvi")){
+
+                    String message="Thank you for registration with us...";
+                    builder.setTitle("Server Response...");
+                    builder.setMessage(message);
+                    diaplayAlert("req_success");
+
+
+                }
+               /*  StringRequest stringRequest=new StringRequest(Request.Method.POST,reg_url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
@@ -99,7 +101,7 @@ public class Register extends AppCompatActivity {
                     }
                 };
                 MySingleton.getmInstance(Register.this).addToRequestque(stringRequest);
-            }
+            */}
         }
     }
 
@@ -116,7 +118,12 @@ public class Register extends AppCompatActivity {
                 }
                 else if(code.equals("req_success"))
                 {
-                    finish();
+                    Name.setText("");
+                    Email.setText("");
+                    Username.setText("");
+                    Password.setText("");
+                    Conpassword.setText("");
+
                 }
                 else if (code.equals("req_failed"))
                 {
